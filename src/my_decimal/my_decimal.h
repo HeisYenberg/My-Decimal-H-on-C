@@ -1,5 +1,5 @@
-#ifndef S21_DECIMAL_H
-#define S21_DECIMAL_H
+#ifndef MY_DECIMAL_H
+#define MY_DECIMAL_H
 
 #include <math.h>
 #include <stdlib.h>
@@ -64,4 +64,4 @@ int my_floor(my_decimal value, my_decimal *result);
 int my_truncate(my_decimal value, my_decimal *result);
 int my_negate(my_decimal value, my_decimal *result);
 
-#endif
+#endif // MY_DECIMAL_H
