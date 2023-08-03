@@ -2,7 +2,7 @@
 
 static int test_ints[] = {0, 1, -1, -21, 23132, 99999, 2147483647, -2147483647};
 
-static s21_decimal test_int_dec[] = {
+static my_decimal test_int_dec[] = {
     {{0x00000000, 0x00000000, 0x00000000, 0x00000000}, 0},   // 0
     {{0x00000001, 0x00000000, 0x00000000, 0x00000000}, 0},   // 1
     {{0x00000001, 0x00000000, 0x00000000, 0x80000000}, 0},   // -1
@@ -15,7 +15,7 @@ static s21_decimal test_int_dec[] = {
 static float test_floats[] = {0.9,      0.21,     1.0,     -1.0,
                               0.123456, 123.4567, 21.2121, 9.999};
 
-static s21_decimal test_float_dec[] = {
+static my_decimal test_float_dec[] = {
     {{0x00895440, 0x00000000, 0x00000000, 0x00070000}, 0},   // 0.9
     {{0x00200B20, 0x00000000, 0x00000000, 0x00070000}, 0},   // 0.21
     {{0x000F4240, 0x00000000, 0x00000000, 0x00060000}, 0},   // 1
@@ -26,8 +26,8 @@ static s21_decimal test_float_dec[] = {
     {{0x00989298, 0x00000000, 0x00000000, 0x00060000}, 0}};  // 9.999
 
 START_TEST(test_int_to_decimal) {
-  s21_decimal tmp = {0};
-  int ret = s21_from_int_to_decimal(test_ints[_i], &tmp);
+  my_decimal tmp = {0};
+  int ret = from_int_to_decimal(test_ints[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], test_int_dec[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], test_int_dec[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], test_int_dec[_i].bits[2]);
@@ -38,15 +38,15 @@ END_TEST
 
 START_TEST(test_decimal_to_int) {
   int tmp = 0;
-  int ret = s21_from_decimal_to_int(test_int_dec[_i], &tmp);
+  int ret = from_decimal_to_int(test_int_dec[_i], &tmp);
   ck_assert_int_eq(tmp, test_ints[_i]);
   ck_assert_int_eq(ret, 0);
 }
 END_TEST
 
 START_TEST(test_float_to_decimal) {
-  s21_decimal tmp;
-  int ret = s21_from_float_to_decimal(test_floats[_i], &tmp);
+  my_decimal tmp;
+  int ret = from_float_to_decimal(test_floats[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], test_float_dec[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], test_float_dec[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], test_float_dec[_i].bits[2]);
@@ -57,14 +57,14 @@ END_TEST
 
 START_TEST(test_decimal_to_float) {
   float tmp = 0;
-  int ret = s21_from_decimal_to_float(test_float_dec[_i], &tmp);
+  int ret = from_decimal_to_float(test_float_dec[_i], &tmp);
   ck_assert_float_eq(tmp, test_floats[_i]);
   ck_assert_int_eq(ret, 0);
 }
 END_TEST
 
 Suite *test_convertation() {
-  int tests = sizeof(test_int_dec) / sizeof(s21_decimal);
+  int tests = sizeof(test_int_dec) / sizeof(my_decimal);
   Suite *s = suite_create("\033[42m-=S21_DECIMAL_CONVERTATION=-\033[0m");
   TCase *tc = tcase_create("S21_DECIMAL_CONVERTATION");
   suite_add_tcase(s, tc);

@@ -1,6 +1,6 @@
-#include "s21_decimal.h"
+#include "my_decimal.h"
 
-s21_decimal s21_decimal_shift_left(s21_decimal value, int step) {
+my_decimal my_decimal_shift_left(my_decimal value, int step) {
   unsigned int carry = 0;
   for (int j = 0; j < step; j++) {
     for (int i = 0; i < 3; i++) {
@@ -9,12 +9,12 @@ s21_decimal s21_decimal_shift_left(s21_decimal value, int step) {
       value.bits[i] |= carry;
       carry = to_carry;
     }
-    if (carry) value.error = (s21_get_sign(value)) ? TOO_SMALL : TOO_LARGE;
+    if (carry) value.error = (get_sign(value)) ? TOO_SMALL : TOO_LARGE;
   }
   return value;
 }
 
-s21_decimal s21_decimal_shift_right(s21_decimal value, int step) {
+my_decimal my_decimal_shift_right(my_decimal value, int step) {
   unsigned int carry = 0;
   for (int j = 0; j < step; j++) {
     for (int i = 2; i >= 0; i--) {
@@ -27,28 +27,28 @@ s21_decimal s21_decimal_shift_right(s21_decimal value, int step) {
   return value;
 }
 
-s21_decimal s21_decimal_or(s21_decimal value_1, s21_decimal value_2) {
+my_decimal my_decimal_or(my_decimal value_1, my_decimal value_2) {
   for (int i = 0; i < 3; i++) {
     value_1.bits[i] |= value_2.bits[i];
   }
   return value_1;
 }
 
-s21_decimal s21_decimal_xor(s21_decimal value_1, s21_decimal value_2) {
+my_decimal my_decimal_xor(my_decimal value_1, my_decimal value_2) {
   for (int i = 0; i < 3; i++) {
     value_1.bits[i] ^= value_2.bits[i];
   }
   return value_1;
 }
 
-s21_decimal s21_decimal_and(s21_decimal value_1, s21_decimal value_2) {
+my_decimal my_decimal_and(my_decimal value_1, my_decimal value_2) {
   for (int i = 0; i < 3; i++) {
     value_1.bits[i] &= value_2.bits[i];
   }
   return value_1;
 }
 
-s21_decimal s21_decimal_not(s21_decimal value) {
+my_decimal my_decimal_not(my_decimal value) {
   for (int i = 0; i < 3; i++) {
     value.bits[i] = ~value.bits[i];
   }

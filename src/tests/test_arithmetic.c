@@ -1,6 +1,6 @@
 #include "tests.h"
 
-static s21_decimal value_1[] = {
+static my_decimal value_1[] = {
     {{0x00000000, 0x00000000, 0x00000000, 0x00000000}, 0},  // 0
     {{0X00003038, 0X00000000, 0X00000000, 0X80000000},
      0},  // -18446744073709551616
@@ -16,7 +16,7 @@ static s21_decimal value_1[] = {
     {{0xFFFFFFFE, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000},
      0}};  // 79228162514264337593543950334
 
-static s21_decimal value_2[] = {
+static my_decimal value_2[] = {
     {{0x00000000, 0x00000000, 0x00000000, 0x00000000}, 0},  // 0
     {{0X00003038, 0X00000000, 0X00000000, 0X80000000}, 0},  // 4294967296
     {{0X0000303A, 0X00000000, 0X00000000, 0X80000000}, 0},  // 0.01
@@ -33,7 +33,7 @@ static s21_decimal value_2[] = {
      0},  // 79228162514264337593543950335
     {{0X00003038, 0X00000000, 0X00000000, 0X80000000}, 0}};  // -12344
 
-static s21_decimal result_add[] = {
+static my_decimal result_add[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00006070, 0X00000000, 0X00000000, 0X80000000},
      0},  // 18446744078004518912
@@ -51,7 +51,7 @@ static s21_decimal result_add[] = {
 
 static int return_add[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static s21_decimal result_sub[] = {
+static my_decimal result_sub[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000000, 0X00000000, 0X00000000, 0X80000000},
      0},  // -79228162495817593524129366016
@@ -69,7 +69,7 @@ static s21_decimal result_sub[] = {
 
 static int return_sub[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static s21_decimal result_mul[] = {
+static my_decimal result_mul[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X09150C40, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X09156CB0, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0.0001
@@ -86,7 +86,7 @@ static s21_decimal result_mul[] = {
 
 static int return_mul[] = {0, 0, 0, 0, 0, 0, 1, 1, 1};
 
-static s21_decimal result_div[] = {
+static my_decimal result_div[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 4294967296
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
@@ -101,51 +101,51 @@ static s21_decimal result_div[] = {
 static int return_div[] = {3, 0, 0, 0, 0, 0, 0, 0, 0};
 
 START_TEST(test_add) {
-  s21_decimal dec_recult = {0};
-  int result = s21_add(value_1[_i], value_2[_i], &dec_recult);
-  ck_assert_int_eq(dec_recult.bits[0], result_add[_i].bits[0]);
-  ck_assert_int_eq(dec_recult.bits[1], result_add[_i].bits[1]);
-  ck_assert_int_eq(dec_recult.bits[2], result_add[_i].bits[2]);
-  ck_assert_int_eq(dec_recult.bits[3], result_add[_i].bits[3]);
+  my_decimal decimal_result = {0};
+  int result = my_add(value_1[_i], value_2[_i], &decimal_result);
+  ck_assert_int_eq(decimal_result.bits[0], result_add[_i].bits[0]);
+  ck_assert_int_eq(decimal_result.bits[1], result_add[_i].bits[1]);
+  ck_assert_int_eq(decimal_result.bits[2], result_add[_i].bits[2]);
+  ck_assert_int_eq(decimal_result.bits[3], result_add[_i].bits[3]);
   ck_assert_int_eq(result, return_add[_i]);
 }
 END_TEST
 
 START_TEST(test_sub) {
-  s21_decimal dec_recult = {0};
-  int result = s21_sub(value_1[_i], value_2[_i], &dec_recult);
-  ck_assert_int_eq(dec_recult.bits[0], result_sub[_i].bits[0]);
-  ck_assert_int_eq(dec_recult.bits[1], result_sub[_i].bits[1]);
-  ck_assert_int_eq(dec_recult.bits[2], result_sub[_i].bits[2]);
-  ck_assert_int_eq(dec_recult.bits[3], result_sub[_i].bits[3]);
+  my_decimal decimal_result = {0};
+  int result = my_sub(value_1[_i], value_2[_i], &decimal_result);
+  ck_assert_int_eq(decimal_result.bits[0], result_sub[_i].bits[0]);
+  ck_assert_int_eq(decimal_result.bits[1], result_sub[_i].bits[1]);
+  ck_assert_int_eq(decimal_result.bits[2], result_sub[_i].bits[2]);
+  ck_assert_int_eq(decimal_result.bits[3], result_sub[_i].bits[3]);
   ck_assert_int_eq(result, return_sub[_i]);
 }
 END_TEST
 
 START_TEST(test_mul) {
-  s21_decimal dec_recult = {0};
-  int result = s21_mul(value_1[_i], value_2[_i], &dec_recult);
-  ck_assert_int_eq(dec_recult.bits[0], result_mul[_i].bits[0]);
-  ck_assert_int_eq(dec_recult.bits[1], result_mul[_i].bits[1]);
-  ck_assert_int_eq(dec_recult.bits[2], result_mul[_i].bits[2]);
-  ck_assert_int_eq(dec_recult.bits[3], result_mul[_i].bits[3]);
+  my_decimal decimal_result = {0};
+  int result = my_mul(value_1[_i], value_2[_i], &decimal_result);
+  ck_assert_int_eq(decimal_result.bits[0], result_mul[_i].bits[0]);
+  ck_assert_int_eq(decimal_result.bits[1], result_mul[_i].bits[1]);
+  ck_assert_int_eq(decimal_result.bits[2], result_mul[_i].bits[2]);
+  ck_assert_int_eq(decimal_result.bits[3], result_mul[_i].bits[3]);
   ck_assert_int_eq(result, return_mul[_i]);
 }
 END_TEST
 
 START_TEST(test_div) {
-  s21_decimal dec_recult = {0};
-  int result = s21_div(value_1[_i], value_2[_i], &dec_recult);
-  ck_assert_int_eq(dec_recult.bits[0], result_div[_i].bits[0]);
-  ck_assert_int_eq(dec_recult.bits[1], result_div[_i].bits[1]);
-  ck_assert_int_eq(dec_recult.bits[2], result_div[_i].bits[2]);
-  ck_assert_int_eq(dec_recult.bits[3], result_div[_i].bits[3]);
+  my_decimal decimal_result = {0};
+  int result = my_div(value_1[_i], value_2[_i], &decimal_result);
+  ck_assert_int_eq(decimal_result.bits[0], result_div[_i].bits[0]);
+  ck_assert_int_eq(decimal_result.bits[1], result_div[_i].bits[1]);
+  ck_assert_int_eq(decimal_result.bits[2], result_div[_i].bits[2]);
+  ck_assert_int_eq(decimal_result.bits[3], result_div[_i].bits[3]);
   ck_assert_int_eq(result, return_div[_i]);
 }
 END_TEST
 
 Suite *test_arithmetic() {
-  int tests = sizeof(value_1) / sizeof(s21_decimal);
+  int tests = sizeof(value_1) / sizeof(my_decimal);
   Suite *s = suite_create("\033[42m-=S21_DECIMAL_ARITHMETIC=-\033[0m");
   TCase *tc = tcase_create("S21_DECIMAL_ARITHMETIC");
   suite_add_tcase(s, tc);

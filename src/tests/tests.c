@@ -2,7 +2,7 @@
 
 int main() {
   int failed = 0;
-  Suite *test_decimal[] = {test_arithmetic(), test_comparision(),
+  Suite *test_decimal[] = {test_arithmetic(), test_comparison(),
                            test_rounding(), test_convertation(), NULL};
   for (int i = 0; test_decimal[i]; i++) {
     SRunner *sr = srunner_create(test_decimal[i]);

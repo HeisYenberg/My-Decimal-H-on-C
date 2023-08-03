@@ -1,21 +1,21 @@
-#include "s21_decimal.h"
+#include "my_decimal.h"
 
-int s21_from_int_to_decimal(int src, s21_decimal *dst) {
+int from_int_to_decimal(int src, my_decimal *dst) {
   int status = CONVERTATION_ERROR;
   if (dst) {
-    s21_decimal temp = {{abs(src), 0, 0, 0}, 0};
+    my_decimal temp = {{abs(src), 0, 0, 0}, 0};
     *dst = temp;
-    if (src < 0) s21_swap_sign(dst);
+    if (src < 0) swap_sign(dst);
     status = CONVERTATION_OK;
   }
   return status;
 }
 
-int s21_from_float_to_decimal(float src, s21_decimal *dst) {
+int from_float_to_decimal(float src, my_decimal *dst) {
   int status = CONVERTATION_ERROR;
   if (dst && !isinf(src) && !isnan(src)) {
     int exp = get_exp_of_float(src);
-    s21_decimal temp = {{0, 0, 0, 0}, 0};
+    my_decimal temp = {{0, 0, 0, 0}, 0};
     *dst = temp;
     if (!src) {
       dst->bits[0] = (int)src;
@@ -33,31 +33,31 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
         src *= 10;
       dst->bits[0] = (int)src;
       set_scale(dst, scale);
-      if (sign) s21_swap_sign(dst);
+      if (sign) swap_sign(dst);
       status = CONVERTATION_OK;
     }
   }
   return status;
 }
 
-int s21_from_decimal_to_int(s21_decimal src, int *dst) {
-  s21_truncate(src, &src);
+int from_decimal_to_int(my_decimal src, int *dst) {
+  my_truncate(src, &src);
   int status = CONVERTATION_ERROR;
   if (dst && !src.bits[2] && !src.bits[1] && !(src.bits[0] & (1u << 31))) {
     *dst = src.bits[0];
-    if (s21_get_sign(src)) *dst = -(*dst);
+    if (get_sign(src)) *dst = -(*dst);
     status = CONVERTATION_OK;
   }
   return status;
 }
 
-int s21_from_decimal_to_float(s21_decimal src, float *dst) {
+int from_decimal_to_float(my_decimal src, float *dst) {
   int status = CONVERTATION_ERROR;
   if (dst && !src.bits[2] && !src.bits[1] && !(src.bits[0] & (1u << 31))) {
     *dst = src.bits[0];
     int scale = get_scale(src);
     *dst /= pow(10, scale);
-    if (s21_get_sign(src)) *dst = -(*dst);
+    if (get_sign(src)) *dst = -(*dst);
     status = CONVERTATION_OK;
   }
   return status;

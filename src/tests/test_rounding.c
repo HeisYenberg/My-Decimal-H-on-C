@@ -1,6 +1,6 @@
 #include "tests.h"
 
-static s21_decimal arr[] = {
+static my_decimal arr[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
     {{0X00000001, 0X00000000, 0X00000000, 0X80000000}, 0},  // -1
@@ -14,7 +14,7 @@ static s21_decimal arr[] = {
     {{0X075BCD15, 0X00000000, 0X00000000, 0X001B0000},
      0}};  // 0,000000000000000000123456789
 
-static s21_decimal result_round[] = {
+static my_decimal result_round[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
     {{0X00000001, 0X00000000, 0X00000000, 0X80000000}, 0},  // -1
@@ -30,7 +30,7 @@ static s21_decimal result_round[] = {
 
 static int return_round[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-static s21_decimal result_truncate[] = {
+static my_decimal result_truncate[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
     {{0X00000001, 0X00000000, 0X00000000, 0X80000000}, 0},  // -1
@@ -46,7 +46,7 @@ static s21_decimal result_truncate[] = {
 
 static int return_truncate[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-static s21_decimal result_floor[] = {
+static my_decimal result_floor[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X00000000}, 0},  // 0
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
     {{0X00000001, 0X00000000, 0X00000000, 0X80000000}, 0},  // -1
@@ -62,7 +62,7 @@ static s21_decimal result_floor[] = {
 
 static int return_floor[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-static s21_decimal result_negate[] = {
+static my_decimal result_negate[] = {
     {{0X00000000, 0X00000000, 0X00000000, 0X80000000}, 0},  // -0
     {{0X00000001, 0X00000000, 0X00000000, 0X80000000}, 0},  // -1
     {{0X00000001, 0X00000000, 0X00000000, 0X00000000}, 0},  // 1
@@ -79,8 +79,8 @@ static s21_decimal result_negate[] = {
 static int return_negate[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 START_TEST(test_round) {
-  s21_decimal tmp;
-  int ret = s21_round(arr[_i], &tmp);
+  my_decimal tmp;
+  int ret = my_round(arr[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], result_round[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], result_round[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], result_round[_i].bits[2]);
@@ -90,8 +90,8 @@ START_TEST(test_round) {
 END_TEST
 
 START_TEST(test_truncate) {
-  s21_decimal tmp;
-  int ret = s21_truncate(arr[_i], &tmp);
+  my_decimal tmp;
+  int ret = my_truncate(arr[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], result_truncate[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], result_truncate[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], result_truncate[_i].bits[2]);
@@ -101,8 +101,8 @@ START_TEST(test_truncate) {
 END_TEST
 
 START_TEST(test_floor) {
-  s21_decimal tmp;
-  int ret = s21_floor(arr[_i], &tmp);
+  my_decimal tmp;
+  int ret = my_floor(arr[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], result_floor[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], result_floor[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], result_floor[_i].bits[2]);
@@ -112,8 +112,8 @@ START_TEST(test_floor) {
 END_TEST
 
 START_TEST(test_negate) {
-  s21_decimal tmp;
-  int ret = s21_negate(arr[_i], &tmp);
+  my_decimal tmp;
+  int ret = my_negate(arr[_i], &tmp);
   ck_assert_int_eq(tmp.bits[0], result_negate[_i].bits[0]);
   ck_assert_int_eq(tmp.bits[1], result_negate[_i].bits[1]);
   ck_assert_int_eq(tmp.bits[2], result_negate[_i].bits[2]);
@@ -123,7 +123,7 @@ START_TEST(test_negate) {
 END_TEST
 
 Suite *test_rounding() {
-  int tests = sizeof(arr) / sizeof(s21_decimal);
+  int tests = sizeof(arr) / sizeof(my_decimal);
   Suite *s = suite_create("\033[42m-=S21_DECIMAL_ROUNDING=-\033[0m");
   TCase *tc = tcase_create("S21_DECIMAL_ROUNDING");
   suite_add_tcase(s, tc);

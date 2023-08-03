@@ -4,10 +4,10 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "../s21_decimal.h"
+#include "../my_decimal/my_decimal.h"
 
 Suite *test_arithmetic();
-Suite *test_comparision();
+Suite *test_comparison();
 Suite *test_rounding();
 Suite *test_convertation();
 
